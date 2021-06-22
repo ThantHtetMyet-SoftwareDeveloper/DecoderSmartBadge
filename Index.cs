@@ -103,6 +103,8 @@ namespace DecodeSmartBadgeData
             Console.WriteLine("--- Decoded Object ---");
             dynamic tempObj = JsonConvert.DeserializeObject(decodedObj.Data);
             ConvertedData payloadConvertedObj = new ConvertedData();
+            data outputData = new data();
+
             payloadConvertedObj.Type = decodedObj.Type;
             payloadConvertedObj.Status = decodedObj.Status;
             payloadConvertedObj.Battery = decodedObj.Battery;
@@ -119,6 +121,9 @@ namespace DecodeSmartBadgeData
                 payloadConvertedObj.Longitude = tempObj["Longitude"];
                 payloadConvertedObj.EHPE = tempObj["EHPE"];
                 payloadConvertedObj.Encrypted = tempObj["Encrypted"];
+
+                outputData.latitude = tempObj["Latitude"];
+                outputData.longitude = tempObj["Longitude"];
             }
             else if (tempObj["MessageType"] == "GpsFix")
             {
@@ -151,7 +156,6 @@ namespace DecodeSmartBadgeData
                 payloadConvertedObj.Rssi = tempObj["Rssi"];
             }
             
-            data outputData = new data();
             outputData.MessageType = messageObj.GetMessageType(Convert.ToInt32(decodedObj.Opt));
 
             if (outputData.MessageType == "GPS")
